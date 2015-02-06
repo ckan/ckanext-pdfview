@@ -78,10 +78,6 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points='''
         [ckan.plugins]
-        # CKAN >= 2.3
         pdf_view=ckanext.pdfview.plugin:PdfviewPlugin
-
-        # CKAN < 2.3
-        pdf_preview=ckanext.pdfview.plugin:PdfviewPlugin
         ''',
 )
