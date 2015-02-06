@@ -8,6 +8,13 @@ log = logging.getLogger(__name__)
 
 class PdfView(p.SingletonPlugin):
     '''This extension views PDFs. '''
+
+    if not p.toolkit.check_ckan_version('2.3'):
+        raise p.toolkit.CkanVersionException(
+            'This extension requires CKAN >= 2.3. If you are using a ' +
+            'previous CKAN version the PDF viewer is included in the main ' +
+            'CKAN repository.')
+
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.IConfigurable, inherit=True)
     p.implements(p.IResourceView, inherit=True)
@@ -23,6 +30,7 @@ class PdfView(p.SingletonPlugin):
                 }
 
     def update_config(self, config):
+
         p.toolkit.add_public_directory(config, 'theme/public')
         p.toolkit.add_template_directory(config, 'theme/templates')
         p.toolkit.add_resource('theme/public', 'ckanext-pdfview')
