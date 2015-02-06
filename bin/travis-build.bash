@@ -26,7 +26,6 @@ cd -
 
 echo "Installing ckanext-ckanext-pdfview and its requirements..."
 python setup.py develop
-pip install -r dev-requirements.txt
 
 echo "Moving test.ini into a subdir..."
 mkdir subdir
