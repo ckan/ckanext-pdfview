@@ -41,7 +41,7 @@ class PdfView(p.SingletonPlugin):
 
     def can_view(self, data_dict):
         resource = data_dict['resource']
-        format_lower = resource['format'].lower()
+        format_lower = resource.get('format', '').lower()
 
         proxy_enabled = p.plugin_loaded('resource_proxy')
         same_domain = datapreview.on_same_domain(data_dict)
