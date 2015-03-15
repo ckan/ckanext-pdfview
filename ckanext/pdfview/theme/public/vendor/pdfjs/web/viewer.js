@@ -24,10 +24,16 @@
            watchScroll, PDFViewer, PDFRenderingQueue, PresentationModeState,
            RenderingStates, DEFAULT_SCALE, UNKNOWN_SCALE,
            IGNORE_CURRENT_POSITION_ON_ZOOM: true */
+/* Adapted to work with CKAN 2.3+
+   - removed sample file (DEFAULT_URL)
+   - replaced webViewerLoad/webViewerInitialized with loadPdfJsView
+   - suppressed Open File control
+   - passed CKAN language setting
+   - suppressed Printing control
+*/
 
 'use strict';
 
-var DEFAULT_URL = 'compressed.tracemonkey-pldi-09.pdf';
 var DEFAULT_SCALE_DELTA = 1.1;
 var MIN_SCALE = 0.25;
 var MAX_SCALE = 10.0;
@@ -6628,31 +6634,17 @@ var PDFViewerApplication = {
 };
 window.PDFView = PDFViewerApplication; // obsolete name, using it as an alias
 
+var loadPdfJsView = function(params) {
 
-function webViewerLoad(evt) {
-  PDFViewerApplication.initialize().then(webViewerInitialized);
-}
+  PDFViewerApplication.initialize();
 
-function webViewerInitialized() {
-  var queryString = document.location.search.substring(1);
-  var params = PDFViewerApplication.parseQueryString(queryString);
-  var file = 'file' in params ? params.file : DEFAULT_URL;
+  var file = params.file;
 
-  var fileInput = document.createElement('input');
-  fileInput.id = 'fileInput';
-  fileInput.className = 'fileInput';
-  fileInput.setAttribute('type', 'file');
-  fileInput.oncontextmenu = noContextMenuHandler;
-  document.body.appendChild(fileInput);
+  // disable open file in CKAN
+  document.getElementById('openFile').setAttribute('hidden', 'true');
+  document.getElementById('secondaryOpenFile').setAttribute('hidden', 'true');
 
-  if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-    document.getElementById('openFile').setAttribute('hidden', 'true');
-    document.getElementById('secondaryOpenFile').setAttribute('hidden', 'true');
-  } else {
-    document.getElementById('fileInput').value = null;
-  }
-
-  var locale = PDFJS.locale || navigator.language;
+  var locale = params.lang;
 
   if (PDFViewerApplication.preferencePdfBugEnabled) {
     // Special debugging flags in the hash section of the URL.
@@ -6717,10 +6709,9 @@ function webViewerInitialized() {
 
   mozL10n.setLanguage(locale);
 
-  if (!PDFViewerApplication.supportsPrinting) {
-    document.getElementById('print').classList.add('hidden');
-    document.getElementById('secondaryPrint').classList.add('hidden');
-  }
+  // disable printing in CKAN
+  document.getElementById('print').classList.add('hidden');
+  document.getElementById('secondaryPrint').classList.add('hidden');
 
   if (!PDFViewerApplication.supportsFullscreen) {
     document.getElementById('presentationMode').classList.add('hidden');
@@ -6853,8 +6844,6 @@ function webViewerInitialized() {
     PDFViewerApplication.open(file, 0);
   }
 }
-
-document.addEventListener('DOMContentLoaded', webViewerLoad, true);
 
 document.addEventListener('pagerendered', function (e) {
   var pageNumber = e.detail.pageNumber;
