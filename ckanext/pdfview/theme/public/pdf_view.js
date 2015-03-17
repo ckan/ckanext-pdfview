@@ -5,7 +5,8 @@ ckan.module('pdf_view', function () {
       PDFJS.workerSrc = pdfjs_workerSrc;
 
       var params = {
-        file: resource_url
+        file: resource_url,
+        lang: lang
       };
 
       loadPdfJsView(params);
