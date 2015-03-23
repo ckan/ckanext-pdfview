@@ -435,7 +435,7 @@ var DEFAULT_PREFERENCES = {
   defaultZoomValue: '',
   sidebarViewOnLoad: 0,
   enableHandToolOnLoad: false,
-  enableWebGL: false,
+  enableWebGL: true,
   pdfBugEnabled: false,
   disableRange: false,
   disableStream: false,
