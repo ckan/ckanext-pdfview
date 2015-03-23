@@ -143,3 +143,18 @@ To publish a new version to PyPI follow these steps:
 
        git tag 0.0.2
        git push --tags
+
+----------------------------------------
+Source Install Troubleshooting
+----------------------------------------
+
+**AttributeError: 'module' object has no attribute 'ckanext-pdfview/main'**
+
+When upgrading a CKAN source install to 2.3+, be sure `to follow all the steps. <http://docs.ckan.org/en/ckan-2.3/maintaining/upgrading/upgrade-source.html>`_
+In particular, be sure to register any new or updated plugins::
+
+       . /usr/lib/ckan/default/bin/activate
+       cd /usr/lib/ckan/default/src/ckan
+       python setup.py develop
+       
+ckanext-pdfview used to be part of CKAN core, and `has been made a separate extension <https://github.com/ckan/ckan/pull/2270>`_ to make it easier to iterate on pdf viewer enhancements.
