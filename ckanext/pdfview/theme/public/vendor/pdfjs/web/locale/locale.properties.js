@@ -61,6 +61,9 @@
 [el]
 @import url(el/viewer.properties)
 
+[en]
+@import url(en-US/viewer.properties)
+
 [en-GB]
 @import url(en-GB/viewer.properties)
 
