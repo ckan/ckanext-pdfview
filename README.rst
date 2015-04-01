@@ -97,9 +97,9 @@ To run the tests, do::
     nosetests --nologcapture --ckan --with-pylons=test.ini
 
 
----------------------------------
+-----------------------------------
 Registering ckanext-pdfview on PyPI
----------------------------------
+-----------------------------------
 
 ckanext-pdfview should be availabe on PyPI as
 https://pypi.python.org/pypi/ckanext-pdfview. If that link doesn't work, then
@@ -126,9 +126,9 @@ steps:
        git push --tags
 
 
-----------------------------------------
+------------------------------------------
 Releasing a New Version of ckanext-pdfview
-----------------------------------------
+------------------------------------------
 
 ckanext-pdfview is availabe on PyPI as https://pypi.python.org/pypi/ckanext-pdfview.
 To publish a new version to PyPI follow these steps:
@@ -152,9 +152,9 @@ To publish a new version to PyPI follow these steps:
        git tag 0.0.2
        git push --tags
 
-----------------------------------------
+------------------------------
 Source Install Troubleshooting
-----------------------------------------
+------------------------------
 
 **AttributeError: 'module' object has no attribute 'ckanext-pdfview/main'**
 
