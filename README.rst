@@ -6,7 +6,7 @@
     :target: https://travis-ci.org/ckan/ckanext-pdfview
 
 .. image:: https://coveralls.io/repos/ckan/ckanext-pdfview/badge.png?branch=master
-  :target: https://coveralls.io/r/ckan/ckanext-pdfview?branch=master
+    :target: https://coveralls.io/r/ckan/ckanext-pdfview?branch=master
 
 .. image:: https://pypip.in/download/ckanext-pdfview/badge.svg
     :target: https://pypi.python.org/pypi//ckanext-pdfview/
