@@ -5,9 +5,6 @@
 .. image:: https://travis-ci.org/ckan/ckanext-pdfview.svg?branch=master
     :target: https://travis-ci.org/ckan/ckanext-pdfview
 
-.. image:: https://coveralls.io/repos/ckan/ckanext-pdfview/badge.png?branch=master
-    :target: https://coveralls.io/r/ckan/ckanext-pdfview?branch=master
-
 .. image:: https://pypip.in/download/ckanext-pdfview/badge.svg
     :target: https://pypi.python.org/pypi//ckanext-pdfview/
     :alt: Downloads
@@ -54,21 +51,13 @@ viewer is included in the main CKAN repository.
 Installation
 ------------
 
-To install ckanext-pdfview:
+1. Do a Development Installation of pdfview (see below)
 
-1. Activate your CKAN virtual environment, for example::
-
-     source /usr/lib/ckan/default/bin/activate
-
-2. Install the ckanext-pdfview Python package into your virtual environment::
-
-     pip install ckanext-pdfview
-
-3. Add ``pdf_view`` to the ``ckan.plugins`` setting in your CKAN
+2. Add ``pdf_view`` to the ``ckan.plugins`` setting in your CKAN
    config file (by default the config file is located at
    ``/etc/ckan/default/production.ini``).
 
-4. If you want to render PDF files which are not located in the same server as
+3. If you want to render PDF files which are not located in the same server as
    CKAN you also need to enable the ``resource_proxy`` plugin.
 
 4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
@@ -97,72 +86,21 @@ To run the tests, do::
     nosetests --nologcapture --ckan --with-pylons=test.ini
 
 
------------------------------------
-Registering ckanext-pdfview on PyPI
------------------------------------
-
-ckanext-pdfview should be availabe on PyPI as
-https://pypi.python.org/pypi/ckanext-pdfview. If that link doesn't work, then
-you can register the project on PyPI for the first time by following these
-steps:
-
-1. Create a source distribution of the project::
-
-     python setup.py sdist
-
-2. Register the project::
-
-     python setup.py register
-
-3. Upload the source distribution to PyPI::
-
-     python setup.py sdist upload
-
-4. Tag the first release of the project on GitHub with the version number from
-   the ``setup.py`` file. For example if the version number in ``setup.py`` is
-   0.0.1 then do::
-
-       git tag 0.0.1
-       git push --tags
-
-
-------------------------------------------
-Releasing a New Version of ckanext-pdfview
-------------------------------------------
-
-ckanext-pdfview is availabe on PyPI as https://pypi.python.org/pypi/ckanext-pdfview.
-To publish a new version to PyPI follow these steps:
-
-1. Update the version number in the ``setup.py`` file.
-   See `PEP 440 <http://legacy.python.org/dev/peps/pep-0440/#public-version-identifiers>`_
-   for how to choose version numbers.
-
-2. Create a source distribution of the new version::
-
-     python setup.py sdist
-
-3. Upload the source distribution to PyPI::
-
-     python setup.py sdist upload
-
-4. Tag the new release of the project on GitHub with the version number from
-   the ``setup.py`` file. For example if the version number in ``setup.py`` is
-   0.0.2 then do::
-
-       git tag 0.0.2
-       git push --tags
-
 ------------------------------
 Source Install Troubleshooting
 ------------------------------
 
 **AttributeError: 'module' object has no attribute 'ckanext-pdfview/main'**
 
-When upgrading a CKAN source install to 2.3+, be sure `to follow all the steps. <http://docs.ckan.org/en/ckan-2.3/maintaining/upgrading/upgrade-source.html>`_
-In particular, be sure to register any new or updated plugins::
+When upgrading a CKAN source install to 2.3+, be sure to remove the old bundled pdfview.
+
+       rm -rf /usr/lib/ckan/default/src/ckan/ckanext/pdfview
+
+pdfview used to be part of CKAN core, and `has been made a separate extension <https://github.com/ckan/ckan/pull/2270>`_ to make it easier to iterate on pdf viewer enhancements.
+
+Also, be sure be sure to register any new or updated plugins::
 
        . /usr/lib/ckan/default/bin/activate
        cd /usr/lib/ckan/default/src/ckan
        python setup.py develop
        
-ckanext-pdfview used to be part of CKAN core, and `has been made a separate extension <https://github.com/ckan/ckan/pull/2270>`_ to make it easier to iterate on pdf viewer enhancements.
