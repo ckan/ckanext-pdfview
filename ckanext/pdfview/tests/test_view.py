@@ -21,7 +21,7 @@ def _create_test_view(view_type):
     resource_view = {'resource_id': resource_id,
                      'view_type': view_type,
                      'title': u'Test View',
-                     'description': u'A nice test view'}
+                     'description': u'A *nice* test view'}
     resource_view = plugins.toolkit.get_action('resource_view_create')(
         context, resource_view)
     return resource_view, package, resource_id
@@ -81,5 +81,10 @@ class TestPdfView(tests.WsgiAppCase):
                         id=self.package.name, resource_id=self.resource_id)
         result = self.app.get(url)
         assert self.resource_view['title'] in result
-        assert self.resource_view['description'] in result
         assert 'data-module="data-viewer"' in result.body
+
+    def test_description_supports_markdown(self):
+        url = h.url_for(controller='package', action='resource_read',
+                        id=self.package.name, resource_id=self.resource_id)
+        result = self.app.get(url)
+        assert 'A <em>nice</em> test view' in result
