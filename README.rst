@@ -47,6 +47,9 @@ Requirements
 This extension only works with CKAN >= 2.3. On previous CKAN versions the PDF
 viewer is included in the main CKAN repository.
 
+Python 2.7 is required.
+
+
 ------------
 Installation
 ------------
