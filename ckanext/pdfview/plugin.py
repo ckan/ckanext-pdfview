@@ -1,10 +1,31 @@
 import logging
 
 import ckan.plugins as p
+import ckan.lib.helpers as h
 import ckan.lib.datapreview as datapreview
 
 log = logging.getLogger(__name__)
 
+def get_ckan_version():
+    try:
+        return float(h.ckan_version()[0:3])
+    except AttributeError:
+        #So old that we can't ask CKAN this way, but let's be optimistic
+        return 2.4
+
+def get_ckan_with_fa():
+    if get_ckan_version() >= 2.7:
+        return True
+    else:
+        return False
+
+def get_bootstrap_version():
+    public_setting = config.get('ckan.base_public_folder', 'public')
+    if public_setting == 'public-bs2' or get_ckan_version() <= 2.7:
+        return 2
+    #Otherwise we're on 2.8+, or other folder; in that case assume 3 (future proofing)
+    else:
+        return 3
 
 class PdfView(p.SingletonPlugin):
     '''This extension views PDFs. '''
@@ -16,6 +37,7 @@ class PdfView(p.SingletonPlugin):
             'CKAN repository.')
 
     p.implements(p.IConfigurer, inherit=True)
+    p.implements(p.ITemplateHelpers, inherit=True)
     p.implements(p.IConfigurable, inherit=True)
     p.implements(p.IResourceView, inherit=True)
 
@@ -52,3 +74,9 @@ class PdfView(p.SingletonPlugin):
 
     def view_template(self, context, data_dict):
         return 'pdf.html'
+        
+    def get_helpers(self):
+        return {
+            'pdfview_get_ckan_with_fa': get_ckan_with_fa,
+            'pdfview_get_bootstrap_version': get_bootstrap_version
+        }
