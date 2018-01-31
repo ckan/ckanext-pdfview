@@ -5,25 +5,9 @@
 .. image:: https://travis-ci.org/ckan/ckanext-pdfview.svg?branch=master
     :target: https://travis-ci.org/ckan/ckanext-pdfview
 
-.. image:: https://pypip.in/download/ckanext-pdfview/badge.svg
-    :target: https://pypi.python.org/pypi//ckanext-pdfview/
-    :alt: Downloads
-
-.. image:: https://pypip.in/version/ckanext-pdfview/badge.svg
+.. image:: https://img.shields.io/pypi/v/ckanext-pdfview.svg
     :target: https://pypi.python.org/pypi/ckanext-pdfview/
     :alt: Latest Version
-
-.. image:: https://pypip.in/py_versions/ckanext-pdfview/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-pdfview/
-    :alt: Supported Python versions
-
-.. image:: https://pypip.in/status/ckanext-pdfview/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-pdfview/
-    :alt: Development Status
-
-.. image:: https://pypip.in/license/ckanext-pdfview/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-pdfview/
-    :alt: License
 
 ===============
 ckanext-pdfview
