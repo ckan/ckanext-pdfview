@@ -3,13 +3,17 @@ import pylons.config as config
 import urlparse
 
 import ckan.model as model
-import ckan.tests.legacy as tests
 import ckan.plugins as plugins
 import ckan.lib.helpers as h
 import ckanext.pdfview.plugin as plugin
 import ckan.lib.create_test_data as create_test_data
 import ckan.config.middleware as middleware
 
+try:
+    import ckan.tests.legacy as tests
+except ImportError:
+    # CKAN <= 2.3
+    import ckan.tests as tests
 
 def _create_test_view(view_type):
     context = {'model': model,
