@@ -2,6 +2,7 @@ import logging
 
 import ckan.plugins as p
 import ckan.lib.datapreview as datapreview
+from ckan.plugins import toolkit as tk
 
 log = logging.getLogger(__name__)
 
@@ -31,9 +32,15 @@ class PdfView(p.SingletonPlugin):
 
     def update_config(self, config):
 
+        # Add public/resource
         p.toolkit.add_public_directory(config, 'theme/public')
-        p.toolkit.add_template_directory(config, 'theme/templates')
         p.toolkit.add_resource('theme/public', 'ckanext-pdfview')
+
+        # Add templates depending on bootstap version
+        if tk.check_ckan_version(min_version='2.8'):
+            p.toolkit.add_template_directory(config, 'theme/templates')
+        else:
+            p.toolkit.add_template_directory(config, 'theme/templates-bs2')
 
     def configure(self, config):
         enabled = config.get('ckan.resource_proxy_enabled', False)
