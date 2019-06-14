@@ -2,10 +2,17 @@ language: python
 sudo: required
 python:
     - "2.7"
-env: PGVERSION=9.1
-install:
-    - bash bin/travis-build.bash
-    - pip install coveralls
+env:
+    - CKANVERSION=master
+    - CKANVERSION=2.7
+    - CKANVERSION=2.6
+    - CKANVERSION=2.5
+    - CKANVERSION=2.4
+    - CKANVERSION=2.3
+services:
+    - postgresql
+    - redis-server
+install: bash bin/travis-build.bash
 script: sh bin/travis-run.sh
 after_success:
     - coveralls
