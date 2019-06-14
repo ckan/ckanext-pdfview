@@ -9,6 +9,14 @@
     :target: https://pypi.python.org/pypi/ckanext-pdfview/
     :alt: Latest Version
 
+.. image:: https://img.shields.io/pypi/status/ckanext-pdfview.svg
+    :target: https://pypi.python.org/pypi/ckanext-pdfview/
+    :alt: Development Status
+
+.. image:: https://img.shields.io/pypi/l/ckanext-pdfview.svg
+    :target: https://pypi.python.org/pypi/ckanext-pdfview/
+    :alt: License
+
 ===============
 ckanext-pdfview
 ===============
