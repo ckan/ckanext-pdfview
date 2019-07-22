@@ -2,9 +2,12 @@ import logging
 
 import ckan.plugins as p
 import ckan.lib.datapreview as datapreview
+from ckan.common import is_flask_request
 
 log = logging.getLogger(__name__)
 
+def request_type():
+    return is_flask_request()
 
 class PdfView(p.SingletonPlugin):
     '''This extension views PDFs. '''
@@ -18,6 +21,7 @@ class PdfView(p.SingletonPlugin):
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.IConfigurable, inherit=True)
     p.implements(p.IResourceView, inherit=True)
+    p.implements(p.ITemplateHelpers)
 
     PDF = ['pdf', 'x-pdf', 'acrobat', 'vnd.pdf']
     proxy_is_enabled = False
@@ -52,3 +56,6 @@ class PdfView(p.SingletonPlugin):
 
     def view_template(self, context, data_dict):
         return 'pdf.html'
+
+    def get_helpers(self):
+        return {'pdfview_request_type': request_type}

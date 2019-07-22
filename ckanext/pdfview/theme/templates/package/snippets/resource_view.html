@@ -34,6 +34,7 @@
         </p>
       </div>
       {% if not to_preview %}
+        {{ h.pdfview_request_type() }}
         {% set current_filters = request.str_GET.get('filters') %}
         {% if current_filters %}
           {% set src = h.url(qualified=true, controller='package',
