@@ -5,17 +5,9 @@
 .. image:: https://travis-ci.org/ckan/ckanext-pdfview.svg?branch=master
     :target: https://travis-ci.org/ckan/ckanext-pdfview
 
-.. image:: https://img.shields.io/pypi/dm/ckanext-pdfview.svg
-    :target: https://pypi.python.org/pypi//ckanext-pdfview/
-    :alt: Downloads
-
 .. image:: https://img.shields.io/pypi/v/ckanext-pdfview.svg
     :target: https://pypi.python.org/pypi/ckanext-pdfview/
     :alt: Latest Version
-
-.. image:: https://img.shields.io/pypi/pyversions/ckanext-pdfview.svg
-    :target: https://pypi.python.org/pypi/ckanext-pdfview/
-    :alt: Supported Python versions
 
 .. image:: https://img.shields.io/pypi/status/ckanext-pdfview.svg
     :target: https://pypi.python.org/pypi/ckanext-pdfview/
