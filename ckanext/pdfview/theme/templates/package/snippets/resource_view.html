@@ -21,6 +21,7 @@
 {% block resource_view %}
 <div id="view-{{ resource_view['id'] }}" class="resource-view" data-id="{{ resource_view['id'] }}" data-title="{{ resource_view['title'] }}" data-description="{{ resource_view['descripion'] }}">
   <div class="actions">
+    {% block resource_view_actions %}  
     <a class="btn btn-primary" 
        target="_blank"
        href="{{ h.url_for('resource_view', id=package['name'], resource_id=resource['id'], view_id=resource_view['id'], qualified=True) }}">
@@ -35,6 +36,8 @@
       <i class="{{ code_icon }}"></i>
       {{ _("Embed") }}
     </a>
+    {% block resource_view_actions_extras %}{% endblock %}
+    {% endblock %}
   </div>  
   <p class="desc">{{ h.render_markdown(resource_view['description']) }}</p>
   <div class="m-top ckanext-datapreview">
