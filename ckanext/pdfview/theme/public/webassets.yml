@@ -1,0 +1,29 @@
+vendor:
+  filters: rjsmin
+  output: ckanext-pdfview/%(version)s_vendor.js
+  extra:
+    preload:
+      - base/main
+  contents:
+    - vendor/pdfjs/build/pdf.js
+
+main_js:
+  filters: rjsmin
+  output: ckanext-pdfview/%(version)s_main.js
+  extra:
+    preload:
+      - base/main
+      - vendor
+  contents:
+    - vendor/pdfjs/web/l10n.js
+    - vendor/pdfjs/web/compatibility.js
+    - vendor/pdfjs/build/pdf.js
+    - vendor/pdfjs/build/pdf.worker.js
+    - vendor/pdfjs/web/viewer.js
+    - pdf_view.js
+
+main_css:
+  output: ckanext-pdfview/%(version)s_main.css
+  contents:
+    - vendor/pdfjs/web/viewer.css
+    - css/pdf.css
