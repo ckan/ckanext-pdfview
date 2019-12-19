@@ -1,6 +1,8 @@
+from future import standard_library
+standard_library.install_aliases()
 import paste.fixture
 import pylons.config as config
-import urlparse
+import urllib.parse
 
 import ckan.model as model
 import ckan.plugins as plugins
@@ -57,7 +59,7 @@ class TestPdfView(tests.WsgiAppCase):
         model.repo.rebuild_db()
 
     def test_can_view(self):
-        url_same_domain = urlparse.urljoin(
+        url_same_domain = urllib.parse.urljoin(
             config.get('ckan.site_url', '//localhost:5000'),
             '/resource.txt')
         url_different_domain = 'http://some.com/resource.pdf'
