@@ -43,7 +43,7 @@
       {% endif %}
 
       {% if not to_preview %}
-        {% set current_filters = request.str_GET.get('filters') %}
+        {% set current_filters = (request.args or request.GET).get('filters') %}
         {% if current_filters %}
           {% set src = h.url(qualified=true, controller=controller,
                              action=action, id=package['name'],
