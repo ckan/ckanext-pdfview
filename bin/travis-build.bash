@@ -41,6 +41,7 @@ fi
 pip install psycopg2==2.7.7  # workaround travis 10 psycopg2 incompatibility
 pip install -r reqs.txt
 pip install -r dev-requirements.txt
+pip install pytest-cov
 cd -
 
 echo "Setting up Solr..."
