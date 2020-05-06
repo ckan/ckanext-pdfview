@@ -40,7 +40,7 @@ def pdf_view():
 
 
 class TestPdfView(object):
-    new_ckan = plugins.toolkit.check_ckan_version("2.8")
+    new_ckan = plugins.toolkit.check_ckan_version("2.9")
 
     def test_can_view(self, ckan_config, pdf_view):
         url_same_domain = urljoin(
