@@ -12,7 +12,6 @@ except ImportError:
 
     from ckan.common import config
 
-
     @pytest.fixture
     def ckan_config(request, monkeypatch):
         """Allows to override the configuration object used by tests
@@ -50,7 +49,6 @@ except ImportError:
         config.clear()
         config.update(_original)
 
-
     @pytest.fixture
     def make_app(ckan_config):
         """Factory for client app instances.
@@ -59,7 +57,6 @@ except ImportError:
         use the ``app`` fixture instead.
         """
         return test_helpers._get_test_app
-
 
     @pytest.fixture
     def app(make_app):
@@ -77,7 +74,6 @@ except ImportError:
         """
         return make_app()
 
-
     @pytest.fixture(scope=u"session")
     def reset_db():
         """Callable for resetting the database to the initial state.
@@ -87,7 +83,6 @@ except ImportError:
         """
         return test_helpers.reset_db
 
-
     @pytest.fixture(scope=u"session")
     def reset_index():
         """Callable for cleaning search index.
@@ -95,7 +90,6 @@ except ImportError:
         If possible use the ``clean_index`` fixture instead.
         """
         return search.clear_all
-
 
     @pytest.fixture
     def clean_db(reset_db):
@@ -118,13 +112,11 @@ except ImportError:
         """
         reset_db()
 
-
     @pytest.fixture
     def clean_index(reset_index):
         """Clear search index before starting the test.
         """
         reset_index()
-
 
     @pytest.fixture
     def with_plugins(ckan_config):
@@ -146,13 +138,11 @@ except ImportError:
             if ckan.plugins.plugin_loaded(plugin):
                 ckan.plugins.unload(plugin)
 
-
     @pytest.fixture
     def test_request_context(app):
         """Provide function for creating Flask request context.
         """
         return app.flask_app.test_request_context
-
 
     @pytest.fixture
     def with_request_context(test_request_context):

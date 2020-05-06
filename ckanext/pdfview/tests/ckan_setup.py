@@ -17,7 +17,6 @@ except ImportError:
         """
         parser.addoption(u"--ckan-ini", action=u"store")
 
-
     def pytest_sessionstart(session):
         """Initialize CKAN environment.
         """
@@ -26,14 +25,14 @@ except ImportError:
         sys.path.insert(0, path)
         pkg_resources.working_set.add_entry(path)
         pylonsapp = loadapp(
-            'config:' + session.config.option.ckan_ini,
-            relative_to=path,
+            "config:" + session.config.option.ckan_ini, relative_to=path,
         )
 
         # Initialize a translator for tests that utilize i18n
-        translator = _get_translator(pylons.config.get('lang'))
+        translator = _get_translator(pylons.config.get("lang"))
         pylons.translator._push_object(translator)
 
         class FakeResponse:
             headers = {}  # because render wants to delete Pragma
+
         pylons.response._push_object(FakeResponse)
