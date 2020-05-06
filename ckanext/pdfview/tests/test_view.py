@@ -1,21 +1,19 @@
-import paste.fixture
-import pylons.config as config
-import urlparse
+import pytest
+
+from six.moves.urllib.parse import urljoin
+
 
 import ckan.model as model
 import ckan.plugins as plugins
 import ckan.lib.helpers as h
 import ckanext.pdfview.plugin as plugin
 import ckan.lib.create_test_data as create_test_data
-import ckan.config.middleware as middleware
 
-try:
-    import ckan.tests.legacy as tests
-except ImportError:
-    # CKAN <= 2.3
-    import ckan.tests as tests
 
-def _create_test_view(view_type):
+@pytest.fixture
+def test_view(clean_db):
+    create_test_data.CreateTestData.create()
+
     context = {'model': model,
                'session': model.Session,
                'user': model.User.get('testsysadmin').name}
@@ -23,7 +21,7 @@ def _create_test_view(view_type):
     package = model.Package.get('annakarenina')
     resource_id = package.resources[1].id
     resource_view = {'resource_id': resource_id,
-                     'view_type': view_type,
+                     'view_type': 'pdf_view',
                      'title': u'Test View',
                      'description': u'A *nice* test view'}
     resource_view = plugins.toolkit.get_action('resource_view_create')(
@@ -31,64 +29,64 @@ def _create_test_view(view_type):
     return resource_view, package, resource_id
 
 
-class TestPdfView(tests.WsgiAppCase):
-    view_type = 'pdf_view'
+@pytest.fixture
+def pdf_view():
+    return plugin.PdfView()
 
-    @classmethod
-    def setup_class(cls):
-        cls.config_templates = config['ckan.legacy_templates']
-        config['ckan.legacy_templates'] = 'false'
-        wsgiapp = middleware.make_app(config['global_conf'], **config)
 
-        plugins.load('pdf_view')
-        cls.app = paste.fixture.TestApp(wsgiapp)
-        cls.p = plugin.PdfView()
-        cls.p.proxy_is_enabled = False
+class TestPdfView(object):
+    new_ckan = plugins.toolkit.check_ckan_version('2.8')
 
-        create_test_data.CreateTestData.create()
-
-        cls.resource_view, cls.package, cls.resource_id = \
-            _create_test_view(cls.view_type)
-
-    @classmethod
-    def teardown_class(cls):
-        config['ckan.legacy_templates'] = cls.config_templates
-        plugins.unload('pdf_view')
-        model.repo.rebuild_db()
-
-    def test_can_view(self):
-        url_same_domain = urlparse.urljoin(
-            config.get('ckan.site_url', '//localhost:5000'),
+    def test_can_view(self, ckan_config, pdf_view):
+        url_same_domain = urljoin(
+            ckan_config.get('ckan.site_url', '//localhost:5000'),
             '/resource.txt')
         url_different_domain = 'http://some.com/resource.pdf'
 
         data_dict = {'resource': {'format': 'pdf', 'url': url_same_domain}}
-        assert self.p.can_view(data_dict)
+        assert pdf_view.can_view(data_dict)
 
         data_dict = {'resource': {'format': 'x-pdf', 'url': url_same_domain}}
-        assert self.p.can_view(data_dict)
+        assert pdf_view.can_view(data_dict)
 
         data_dict = {'resource': {'format': 'pdf',
                                   'url': url_different_domain}}
-        assert not self.p.can_view(data_dict)
+        assert not pdf_view.can_view(data_dict)
 
-    def test_js_included(self):
-        url = h.url_for(controller='package', action='resource_view',
-                        id=self.package.name, resource_id=self.resource_id,
-                        view_id=self.resource_view['id'])
-        result = self.app.get(url)
+    def test_js_included(self, test_view, app):
+        resource_view, package, resource_id = test_view
+        if self.new_ckan:
+            params = {'controller': 'resource', 'action': 'view'}
+        else:
+            params = {'controller': 'package', 'action': 'resource_view'}
+        url = h.url_for(
+            **params,
+            id=package.name, resource_id=resource_id,
+            view_id=resource_view['id'])
+        result = app.get(url)
         assert (('pdf_view.js' in result.body) or
                 ('pdf_view.min.js' in result.body))
 
-    def test_title_description_iframe_shown(self):
-        url = h.url_for(controller='package', action='resource_read',
-                        id=self.package.name, resource_id=self.resource_id)
-        result = self.app.get(url)
-        assert self.resource_view['title'] in result
+    def test_title_description_iframe_shown(self, app, test_view):
+        resource_view, package, resource_id = test_view
+        if self.new_ckan:
+            params = {'controller': 'resource', 'action': 'read'}
+        else:
+            params = {'controller': 'package', 'action': 'resource_read'}
+
+        url = h.url_for(**params,
+                        id=package.name, resource_id=resource_id)
+        result = app.get(url)
+        assert resource_view['title'] in result
         assert 'data-module="data-viewer"' in result.body
 
-    def test_description_supports_markdown(self):
-        url = h.url_for(controller='package', action='resource_read',
-                        id=self.package.name, resource_id=self.resource_id)
-        result = self.app.get(url)
+    def test_description_supports_markdown(self, test_view, app):
+        resource_view, package, resource_id = test_view
+        if self.new_ckan:
+            params = {'controller': 'resource', 'action': 'read'}
+        else:
+            params = {'controller': 'package', 'action': 'resource_read'}
+
+        url = h.url_for(**params, id=package.name, resource_id=resource_id)
+        result = app.get(url)
         assert 'A <em>nice</em> test view' in result

@@ -9,7 +9,7 @@ vendor:
 
 main_js:
   filters: rjsmin
-  output: ckanext-pdfview/%(version)s_main.js
+  output: ckanext-pdfview/%(version)s_pdf_view.js
   extra:
     preload:
       - base/main
@@ -23,7 +23,7 @@ main_js:
     - pdf_view.js
 
 main_css:
-  output: ckanext-pdfview/%(version)s_main.css
+  output: ckanext-pdfview/%(version)s_pdf_view.css
   contents:
     - vendor/pdfjs/web/viewer.css
     - css/pdf.css
