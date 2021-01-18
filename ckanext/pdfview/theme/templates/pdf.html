@@ -311,6 +311,7 @@
          body.style.height = '100%';
      }
     </script>
-    {% set type = 'asset' if h.ckan_version() > '2.9' else 'resource' %}
+
+    {% set type = 'asset' if h.ckan_version().split('.')[1] | int >= 9 else 'resource' %}
     {% include 'pdfview/snippets/pdfview_' ~ type ~ '.html' %}
 {% endblock %}

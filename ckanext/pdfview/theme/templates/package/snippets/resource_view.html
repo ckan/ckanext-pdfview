@@ -1,6 +1,6 @@
 {% import 'macros/form.html' as form %}
 
-{% set hide_modal_class = 'fade' if h.ckan_version() > '2.8' else 'hide' %}
+{% set hide_modal_class = 'fade' if h.ckan_version().split('.')[1] | int >= 8 else 'hide' %}
 
 <div id="view-{{ resource_view['id'] }}" class="resource-view" data-id="{{ resource_view['id'] }}" data-title="{{ resource_view['title'] }}" data-description="{{ resource_view['descripion'] }}">
   <a class="btn pull-right"
@@ -35,7 +35,7 @@
           </a>
         </p>
       </div>
-      {% if h.ckan_version() > '2.9' %}
+      {% if h.ckan_version().split('.')[1] | int >= 9 %}
           {% set controller = 'resource' %}
           {% set action = 'view' %}
       {% else %}
