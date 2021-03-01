@@ -73,6 +73,7 @@ do::
 
     git clone https://github.com/ckan/ckanext-pdfview.git
     cd ckanext-pdfview
+    pip install -r dev-requirements.txt
     python setup.py develop
 
 
