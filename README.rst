@@ -35,7 +35,7 @@ This extension provides a view plugin for PDF files using an `html object tag <h
 Requirements
 ------------
 
-This extension works with CKAN >= 2.7 and runs both on Python 2.7 and 3.8.
+This extension works with CKAN >= 2.7 and runs both on Python 2.7 and 3.6+.
 
 
 ------------
