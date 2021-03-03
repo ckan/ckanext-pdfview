@@ -77,6 +77,6 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points='''
         [ckan.plugins]
-        pdf_view=ckanext.pdfview.plugin:PdfView
+        pdf_view=ckanext.pdfview.plugin:PDFView
         ''',
 )
