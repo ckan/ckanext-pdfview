@@ -1,11 +1,11 @@
 # encoding: utf-8
 
 import logging
-from six import text_type
 import ckan.plugins as p
 
 log = logging.getLogger(__name__)
 ignore_empty = p.toolkit.get_validator('ignore_empty')
+url_validator = p.toolkit.get_validator('url_validator')
 
 
 class PDFView(p.SingletonPlugin):
@@ -21,7 +21,7 @@ class PDFView(p.SingletonPlugin):
         return {'name': 'pdf_view',
                 'title': p.toolkit._('PDF'),
                 'icon': 'file-pdf-o',
-                'schema': {'pdf_url': [ignore_empty, text_type]},
+                'schema': {'pdf_url': [ignore_empty, url_validator]},
                 'iframed': False,
                 'always_available': False,
                 'default_title': p.toolkit._('PDF'),
