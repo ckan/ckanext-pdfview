@@ -29,7 +29,7 @@ class PDFView(p.SingletonPlugin):
         }
 
     def can_view(self, data_dict):
-        return data_dict["resource"].get("format", "").lower() == "pdf"
+        return data_dict["resource"].get("format", "").lower() in ["pdf", "pdf/a"]
 
     def view_template(self, context, data_dict):
         return "pdf_view.html"
