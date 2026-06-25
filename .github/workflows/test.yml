@@ -4,8 +4,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.9'
       - name: Install requirements
@@ -17,7 +17,7 @@ jobs:
     needs: lint
     strategy:
       matrix:
-        ckan-version: ["2.11","2.10", 2.9]
+        ckan-version: ["2.12", "2.11","2.10"]
       fail-fast: false
 
     name: CKAN ${{ matrix.ckan-version }}
@@ -44,14 +44,14 @@ jobs:
       CKAN_REDIS_URL: redis://redis:6379/1
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - name: Install requirements
       run: |
         pip install -r dev-requirements.txt
         pip install -e .
         # Replace default path to CKAN core config file with the one on the container
         sed -i -e 's/use = config:.*/use = config:\/srv\/app\/src\/ckan\/test-core.ini/' test.ini
-    - name: Setup extension (CKAN >= 2.9)
+    - name: Setup extension
       run: |
         ckan -c test.ini db init
     - name: Run tests
